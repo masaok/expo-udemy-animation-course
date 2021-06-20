@@ -31,7 +31,9 @@ const styles = StyleSheet.create({
 export default function TabOneScreen() {
   const [animation, setAnimation] = useState(new Animated.Value(1))
   const [translation, setTranslation] = useState(new Animated.Value(0))
+  const [scaling, setScaling] = useState(new Animated.Value(1))
 
+  // Opacity Animation
   const animatedStyles = {
     opacity: animation,
   }
@@ -51,8 +53,12 @@ export default function TabOneScreen() {
     })
   }
 
+  // Translation Animation
   const translatedStyles = {
     transform: [
+      {
+        translateX: translation,
+      },
       {
         translateY: translation,
       },
@@ -69,6 +75,25 @@ export default function TabOneScreen() {
     })
   }
 
+  // Scaling Animation
+  const scaledStyles = {
+    transform: [
+      {
+        scale: scaling, // scaleX and scaleY also work
+      },
+    ],
+  }
+
+  const startScaling = () => {
+    Animated.timing(scaling, {
+      toValue: 2, // negative values will cause "inside-out" scaling
+      duration: 1500,
+      useNativeDriver: true,
+    }).start(() => {
+      scaling.setValue(1)
+    })
+  }
+
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={startAnimation}>
@@ -79,6 +104,11 @@ export default function TabOneScreen() {
       <TouchableWithoutFeedback onPress={startTranslation}>
         <Animated.View style={[styles.box, translatedStyles]}>
           <Text>TRANSLATION</Text>
+        </Animated.View>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={startScaling}>
+        <Animated.View style={[styles.box, scaledStyles]}>
+          <Text>SCALE</Text>
         </Animated.View>
       </TouchableWithoutFeedback>
     </View>
