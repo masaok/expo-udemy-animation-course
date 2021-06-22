@@ -26,6 +26,12 @@ const styles = StyleSheet.create({
     width: 150,
     backgroundColor: 'tomato',
   },
+
+  absolute: {
+    height: 100,
+    backgroundColor: 'green',
+    position: 'absolute',
+  },
 })
 
 export default function TabOneScreen() {
@@ -33,6 +39,7 @@ export default function TabOneScreen() {
   const [translation, setTranslation] = useState(new Animated.Value(0))
   const [scaling, setScaling] = useState(new Animated.Value(1))
   const [fixed, setFixed] = useState(new Animated.Value(150))
+  const [absolute, setAbsolute] = useState(new Animated.Value(0))
 
   // Opacity Animation
   const animatedStyles = {
@@ -95,7 +102,7 @@ export default function TabOneScreen() {
     })
   }
 
-  // Height / Width Animation
+  // Height / Width Animation but internal text does *not* scale
   const fixedStyles = {
     width: fixed,
     height: fixed,
@@ -103,11 +110,28 @@ export default function TabOneScreen() {
 
   const startFixed = () => {
     Animated.timing(fixed, {
-      toValue: 300, // negative values will cause "inside-out" scaling
+      toValue: 300,
       duration: 1500,
       useNativeDriver: false, // width/height not supported natively
     }).start(() => {
       fixed.setValue(150)
+    })
+  }
+
+  // Absolute positioning animation
+  const absoluteStyles = {
+    bottom: absolute,
+    left: absolute,
+    right: absolute,
+  }
+
+  const startAbsolute = () => {
+    Animated.timing(absolute, {
+      toValue: 40,
+      duration: 1500,
+      useNativeDriver: false,
+    }).start(() => {
+      absolute.setValue(0)
     })
   }
 
@@ -134,6 +158,12 @@ export default function TabOneScreen() {
       <TouchableWithoutFeedback onPress={startFixed}>
         <Animated.View style={[styles.box, fixedStyles]}>
           <Text>FIXED WIDTH AND HEIGHT</Text>
+        </Animated.View>
+      </TouchableWithoutFeedback>
+
+      <TouchableWithoutFeedback onPress={startAbsolute}>
+        <Animated.View style={[styles.absolute, absoluteStyles]}>
+          <Text>ABSOLUTE</Text>
         </Animated.View>
       </TouchableWithoutFeedback>
     </View>
