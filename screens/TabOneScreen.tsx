@@ -32,6 +32,7 @@ export default function TabOneScreen() {
   const [animation, setAnimation] = useState(new Animated.Value(1))
   const [translation, setTranslation] = useState(new Animated.Value(0))
   const [scaling, setScaling] = useState(new Animated.Value(1))
+  const [fixed, setFixed] = useState(new Animated.Value(150))
 
   // Opacity Animation
   const animatedStyles = {
@@ -94,6 +95,22 @@ export default function TabOneScreen() {
     })
   }
 
+  // Height / Width Animation
+  const fixedStyles = {
+    width: fixed,
+    height: fixed,
+  }
+
+  const startFixed = () => {
+    Animated.timing(fixed, {
+      toValue: 300, // negative values will cause "inside-out" scaling
+      duration: 1500,
+      useNativeDriver: false, // width/height not supported natively
+    }).start(() => {
+      fixed.setValue(150)
+    })
+  }
+
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={startAnimation}>
@@ -101,14 +118,22 @@ export default function TabOneScreen() {
           <Text>OPACITY</Text>
         </Animated.View>
       </TouchableWithoutFeedback>
+
       <TouchableWithoutFeedback onPress={startTranslation}>
         <Animated.View style={[styles.box, translatedStyles]}>
           <Text>TRANSLATION</Text>
         </Animated.View>
       </TouchableWithoutFeedback>
+
       <TouchableWithoutFeedback onPress={startScaling}>
         <Animated.View style={[styles.box, scaledStyles]}>
           <Text>SCALE</Text>
+        </Animated.View>
+      </TouchableWithoutFeedback>
+
+      <TouchableWithoutFeedback onPress={startFixed}>
+        <Animated.View style={[styles.box, fixedStyles]}>
+          <Text>FIXED WIDTH AND HEIGHT</Text>
         </Animated.View>
       </TouchableWithoutFeedback>
     </View>
