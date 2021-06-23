@@ -27,6 +27,12 @@ const styles = StyleSheet.create({
     width: 150,
     backgroundColor: 'tomato',
   },
+
+  rotationBox: {
+    height: 150,
+    width: 150,
+    backgroundColor: 'green',
+  },
 })
 
 export default function TabTwoScreen() {
@@ -77,6 +83,8 @@ export default function TabTwoScreen() {
     transform: [
       {
         rotate: rotateInterpolate,
+        rotateY: rotateInterpolate,
+        rotateX: rotateInterpolate,
       },
     ],
   }
@@ -99,13 +107,13 @@ export default function TabTwoScreen() {
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={startAnimation}>
         <Animated.View style={[styles.box, boxAnimatedStyle]}>
-          <Animated.Text style={textAnimatedStyle}>Hello Animation</Animated.Text>
+          <Animated.Text style={textAnimatedStyle}>COLOR INTERPOLATION</Animated.Text>
         </Animated.View>
       </TouchableWithoutFeedback>
 
       <TouchableWithoutFeedback onPress={startRotation}>
-        <Animated.View style={[styles.box, rotationStyles]}>
-          <Animated.Text style={textAnimatedStyle}>Hello Animation</Animated.Text>
+        <Animated.View style={[styles.rotationBox, rotationStyles]}>
+          <Animated.Text style={textAnimatedStyle}>ROTATION INTERPOLATION</Animated.Text>
         </Animated.View>
       </TouchableWithoutFeedback>
     </View>
