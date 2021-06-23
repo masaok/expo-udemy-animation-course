@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
 
 export default function TabTwoScreen() {
   const [animation, setAnimation] = useState(new Animated.Value(0))
+  const [rotation, setRotation] = useState(new Animated.Value(0))
 
   const startAnimation = () => {
     Animated.timing(animation, {
@@ -66,10 +67,44 @@ export default function TabTwoScreen() {
     color: colorInterpolation,
   }
 
+  // Rotation
+  const rotateInterpolate = rotation.interpolate({
+    inputRange: [0, 360],
+    outputRange: ['0deg', '360deg'],
+  })
+
+  const rotationStyles = {
+    transform: [
+      {
+        rotate: rotateInterpolate,
+      },
+    ],
+  }
+
+  const startRotation = () => {
+    Animated.timing(rotation, {
+      toValue: 360,
+      duration: 1500,
+      useNativeDriver: true,
+    }).start(() => {
+      Animated.timing(rotation, {
+        toValue: 0,
+        duration: 1500,
+        useNativeDriver: true,
+      }).start()
+    })
+  }
+
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={startAnimation}>
         <Animated.View style={[styles.box, boxAnimatedStyle]}>
+          <Animated.Text style={textAnimatedStyle}>Hello Animation</Animated.Text>
+        </Animated.View>
+      </TouchableWithoutFeedback>
+
+      <TouchableWithoutFeedback onPress={startRotation}>
+        <Animated.View style={[styles.box, rotationStyles]}>
           <Animated.Text style={textAnimatedStyle}>Hello Animation</Animated.Text>
         </Animated.View>
       </TouchableWithoutFeedback>
