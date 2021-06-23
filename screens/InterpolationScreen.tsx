@@ -28,16 +28,25 @@ const styles = StyleSheet.create({
     backgroundColor: 'tomato',
   },
 
+  // Rotation
   rotationBox: {
     height: 150,
     width: 150,
     backgroundColor: 'green',
+  },
+
+  // Percent
+  percentBox: {
+    // height: '20%',
+    width: '50%',
+    backgroundColor: 'purple',
   },
 })
 
 export default function TabTwoScreen() {
   const [animation, setAnimation] = useState(new Animated.Value(0))
   const [rotation, setRotation] = useState(new Animated.Value(0))
+  const [percent, setPercent] = useState(new Animated.Value(0))
 
   const startAnimation = () => {
     Animated.timing(animation, {
@@ -83,8 +92,8 @@ export default function TabTwoScreen() {
     transform: [
       {
         rotate: rotateInterpolate,
-        rotateY: rotateInterpolate,
-        rotateX: rotateInterpolate,
+        // rotateY: rotateInterpolate,
+        // rotateX: rotateInterpolate,
       },
     ],
   }
@@ -103,6 +112,37 @@ export default function TabTwoScreen() {
     })
   }
 
+  // Percent Height / Width
+  const heightInterpolation = percent.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['20%', '30%'],
+  })
+
+  const widthInterpolation = percent.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['20%', '50%'],
+  })
+
+  const percentStyles = {
+    height: heightInterpolation,
+    width: widthInterpolation,
+  }
+
+  const startPercent = () => {
+    console.log('START PERCENT ANIMATION CALLED')
+    Animated.timing(percent, {
+      toValue: 1,
+      duration: 1500,
+      useNativeDriver: false,
+    }).start(() => {
+      Animated.timing(percent, {
+        toValue: 0,
+        duration: 1500,
+        useNativeDriver: false,
+      }).start()
+    })
+  }
+
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={startAnimation}>
@@ -114,6 +154,12 @@ export default function TabTwoScreen() {
       <TouchableWithoutFeedback onPress={startRotation}>
         <Animated.View style={[styles.rotationBox, rotationStyles]}>
           <Animated.Text style={textAnimatedStyle}>ROTATION INTERPOLATION</Animated.Text>
+        </Animated.View>
+      </TouchableWithoutFeedback>
+
+      <TouchableWithoutFeedback onPress={startPercent}>
+        <Animated.View style={[styles.percentBox, percentStyles]}>
+          <Animated.Text style={textAnimatedStyle}>PERCENT INTERPOLATION</Animated.Text>
         </Animated.View>
       </TouchableWithoutFeedback>
     </View>
