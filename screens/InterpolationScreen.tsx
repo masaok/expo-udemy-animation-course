@@ -99,6 +99,7 @@ export default function TabTwoScreen() {
   }
 
   const startRotation = () => {
+    // Easing: https://reactnative.dev/docs/easing
     Animated.timing(rotation, {
       toValue: 360,
       duration: 1500,

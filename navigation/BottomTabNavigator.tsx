@@ -10,9 +10,10 @@ import * as React from 'react'
 
 import Colors from '../constants/Colors'
 import useColorScheme from '../hooks/useColorScheme'
+import AnimatedFunctionsScreen from '../screens/AnimatedFunctionsScreen'
 import TabOneScreen from '../screens/AnimationBasicsScreen'
 import TabTwoScreen from '../screens/InterpolationScreen'
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types'
+import { AnimatedFunctionsParamList, BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types'
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
@@ -31,6 +32,13 @@ export default function BottomTabNavigator() {
       <BottomTab.Screen
         name="Interpolation"
         component={TabTwoNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Functions"
+        component={AnimatedFunctionsNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
         }}
@@ -68,5 +76,19 @@ function TabTwoNavigator() {
         options={{ headerTitle: 'Interpolation Demo' }}
       />
     </TabTwoStack.Navigator>
+  )
+}
+
+const AnimatedFunctionsStack = createStackNavigator<AnimatedFunctionsParamList>()
+
+function AnimatedFunctionsNavigator() {
+  return (
+    <AnimatedFunctionsStack.Navigator>
+      <AnimatedFunctionsStack.Screen
+        name="AnimatedFunctionsScreen"
+        component={AnimatedFunctionsScreen}
+        options={{ headerTitle: 'Animated Functions Demo' }}
+      />
+    </AnimatedFunctionsStack.Navigator>
   )
 }
