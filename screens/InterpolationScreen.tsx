@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Animated, StyleSheet, TouchableWithoutFeedback } from 'react-native'
+import { Animated, Easing, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 
 import EditScreenInfo from '../components/EditScreenInfo'
 import { Text, View } from '../components/Themed'
@@ -102,11 +102,13 @@ export default function TabTwoScreen() {
     Animated.timing(rotation, {
       toValue: 360,
       duration: 1500,
+      easing: Easing.back(1), // back, bounce, elastic, bezier
       useNativeDriver: true,
     }).start(() => {
       Animated.timing(rotation, {
         toValue: 0,
         duration: 1500,
+        easing: Easing.back(1),
         useNativeDriver: true,
       }).start()
     })
